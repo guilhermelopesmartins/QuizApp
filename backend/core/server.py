@@ -11,8 +11,6 @@ from core.config import config
 from core.exceptions import CustomException
 from core.fastapi.dependencies import Logging
 from core.fastapi.middlewares import (
-    AuthBackend,
-    AuthenticationMiddleware,
     ResponseLoggerMiddleware,
     SQLAlchemyMiddleware,
 )
@@ -53,25 +51,15 @@ def make_middleware() -> List[Middleware]:
             allow_methods=["*"],
             allow_headers=["*"],
         ),
-        Middleware(
-            AuthenticationMiddleware,
-            backend=AuthBackend(),
-            on_error=on_auth_error,
-        ),
-        Middleware(SQLAlchemyMiddleware),
         Middleware(ResponseLoggerMiddleware),
     ]
     return middleware
 
 
-def init_cache() -> None:
-    Cache.init(backend=RedisBackend(), key_maker=CustomKeyMaker())
-
-
 def create_app() -> FastAPI:
     app_ = FastAPI(
-        title="FastAPI Boilerplate",
-        description="FastAPI Boilerplate by @iam-abbas",
+        title="Quiz API",
+        description="Quiz API",
         version="1.0.0",
         docs_url=None if config.ENVIRONMENT == "production" else "/docs",
         redoc_url=None if config.ENVIRONMENT == "production" else "/redoc",
@@ -80,7 +68,6 @@ def create_app() -> FastAPI:
     )
     init_routers(app_=app_)
     init_listeners(app_=app_)
-    init_cache()
     return app_
 
 
