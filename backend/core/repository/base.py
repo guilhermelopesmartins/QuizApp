@@ -2,20 +2,32 @@ from typing import TypeVar, Dict, Generic
 
 EntityType = TypeVar('EntityType')
 
+import asyncio
+
+async def main():
+    await asyncio.sleep(1)
+
+if __name__ == "__main__":
+    loop = asyncio.get_event_loop()
+    loop.run_until_complete(main())
+
 class BaseRepository(Generic[EntityType]):
     def __init__(self):
         self.entities = Dict[str, EntityType]()
 
-    def get_by_key(self, key: str):
+    async def get_all(self):
+        return self.entities.values()
+
+    async def get_by_key(self, key: str):
         return self.entities.get(key)
 
-    def add_entity(self, entity: EntityType, key: str):
+    async def add_entity(self, entity: EntityType, key: str):
         self.entities[key] = entity
 
-    def update_entity(self, key: str, updated_entity: EntityType):
+    async def update_entity(self, key: str, updated_entity: EntityType):
         if key in self.entities:
             self.entities[key] = updated_entity
 
-    def delete_entity(self, key: str):
+    async def delete_entity(self, key: str):
         if key in self.entities:
             del self.entities[key]

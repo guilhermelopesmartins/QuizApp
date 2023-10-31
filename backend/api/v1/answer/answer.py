@@ -8,7 +8,7 @@ answer_router = APIRouter()
 
 @answer_router.get("/")
 async def get_all_answers(controller: AnswerController = Depends(Factory().get_answer_controller)) -> list[AnswerSchema]:
-    return await controller.repository.get_all()
+    return await controller.get_all()
 
 @answer_router.get("/{id}")
 async def get_answer(id: int, controller: AnswerController = Depends(Factory().get_answer_controller))  -> list[AnswerSchema]:
