@@ -2,9 +2,8 @@ from typing import Optional
 from pydantic import BaseModel, Extra
 
 class User(BaseModel):
-    id: int
     username: str
-    email: Optional[str] = None
+    email: Optional[str]
     password: str
 
 class Quiz(BaseModel):

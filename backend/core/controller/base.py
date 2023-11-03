@@ -17,7 +17,7 @@ class BaseController(Generic[ModelType]):
         return await self.repository.get_by_id(id)
 
     async def add(self, entity: ModelType):
-        await self.repository.add_entity(entity, entity.id)
+        await self.repository.add_entity(entity)
 
     async def update(self, id: int, entity: ModelType):
         await self.repository.update_entity(id, entity)

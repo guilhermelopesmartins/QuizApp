@@ -1,3 +1,5 @@
+from tortoise import Tortoise
+Tortoise.init_models(["core.database.models"], "models")
 from typing import List
 
 from fastapi import Depends, FastAPI, Request
@@ -5,6 +7,8 @@ from fastapi.middleware import Middleware
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
+from core.database.config import TORTOISE_ORM
+from core.database.register import register_tortoise
 from api import router
 from core.config import config
 from core.exceptions import CustomException
@@ -55,6 +59,8 @@ def make_middleware() -> List[Middleware]:
 
 
 def create_app() -> FastAPI:
+
+
     app_ = FastAPI(
         title="Quiz API",
         description="Quiz API",
@@ -64,6 +70,7 @@ def create_app() -> FastAPI:
         dependencies=[Depends(Logging)],
         middleware=make_middleware(),
     )
+    register_tortoise(app_, config=TORTOISE_ORM, generate_schemas=False)
     init_routers(app_=app_)
     init_listeners(app_=app_)
     return app_

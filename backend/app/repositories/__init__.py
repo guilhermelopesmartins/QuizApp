@@ -5,6 +5,7 @@ from .quiz import QuizRepository
 from .result import ResultRepository
 from .session import SessionRepository
 from .answer import AnswerRepository
+from .user import UserRepository
 
 
 __all__ = [
@@ -15,4 +16,5 @@ __all__ = [
     "ResultRepository",
     "SessionRepository",
     "AnswerRepository",
+    "UserRepository"
 ]

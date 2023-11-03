@@ -5,6 +5,7 @@ from .question import QuestionController
 from .quiz import QuizController
 from .result import ResultController
 from .session import SessionController
+from .user import UserController
 
 __all__ = [
     "AnswerController",
@@ -14,4 +15,5 @@ __all__ = [
     "QuizController",
     "ResultController",
     "SessionController",
+    "UserController"
 ]
