@@ -30,30 +30,36 @@ class BaseRepository(Generic[EntityType]):
         self.create_schema = create_schema or schema
         self.update_schema = update_schema or schema
         self._pk: str = db_model.describe()["pk_field"]["db_column"]
-
+    
     def _convert_to_pydantic(self, db_model: Model) -> SCHEMA:
-        # Implement the conversion logic here
-        print(db_model.__dict__)
-        return self.schema(**db_model.__dict__)
+        return_dict = db_model.__dict__
+
+        # Ensure that the response field always has a value
+        return_dict["response"] = {
+            "message": "Success"
+        }
+
+        return self.schema(**return_dict)
     
     async def get_all(self) -> List[Model]:
-        return self.db_model.all()
+        query = self.db_model.all()
+        return await self.schema.from_queryset(query)
 
     async def get_by_id(self, key: str) -> Model:
-        return self.db_model.filter(id=key).get_or_none()
+        query = self.db_model.filter(id=key).get_or_none()
+        return await self.schema.from_queryset(query)
 
     async def add_entity(self, model: Model) -> Model:
         if isinstance(model, self.create_schema):
-            model = model.dict(exclude_unset=True)
+            model = model.model_dump()
             db_model = self.db_model(**model)
             await db_model.save()
-            print(db_model)
-            pydantic_model = self._convert_to_pydantic(db_model)
-            return pydantic_model
+            print(db_model.__dict__)
+            return await self.schema.from_tortoise_orm(db_model)
 
     async def update_entity(self, key: str, model: Model) -> Model:
         if isinstance(model, self.update_schema):
-            model = model.dict(exclude_unset=True)
+            model = model.model_dump(exclude_unset=True)
             query = self.db_model.filter(id=key)
             await query.update(**model)
             return await self.schema.from_queryset_single(self.db_model.get(id=key))

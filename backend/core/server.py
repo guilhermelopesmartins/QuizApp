@@ -1,5 +1,4 @@
 from tortoise import Tortoise
-Tortoise.init_models(["core.database.models"], "models")
 from typing import List
 
 from fastapi import Depends, FastAPI, Request
