@@ -33,6 +33,7 @@ class BaseRepository(Generic[EntityType]):
 
     def _convert_to_pydantic(self, db_model: Model) -> SCHEMA:
         # Implement the conversion logic here
+        print(db_model.__dict__)
         return self.schema(**db_model.__dict__)
     
     async def get_all(self) -> List[Model]:
