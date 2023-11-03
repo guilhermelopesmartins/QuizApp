@@ -2,8 +2,8 @@ from fastapi import APIRouter
 
 from .category import category_router
 
-category_router = APIRouter()
-category_router.include_router(category_router, prefix="/category", tags=["Category"])
+categories_router = APIRouter()
+categories_router.include_router(category_router, prefix="/category", tags=["Category"])
 
 
-__all__ = ["category_router"]
+__all__ = ["categories_router"]

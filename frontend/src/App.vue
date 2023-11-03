@@ -2,6 +2,7 @@
 <script setup>
 
 import HelloWorld from "@/components/HelloWorld.vue";
+import ViewQuizzes from "./components/ViewQuizzes.vue";
 import { ref } from "vue";
 
 const value = ref(null);
@@ -35,6 +36,7 @@ function startAnimation() {
   <div class="main-wrapper">
     <div class="main-container">
       <HelloWorld/>
+      <ViewQuizzes/>
     </div>
 
     <div class="footer">

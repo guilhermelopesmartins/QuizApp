@@ -6,13 +6,11 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
 from api import router
-from core.cache import Cache, CustomKeyMaker, RedisBackend
 from core.config import config
 from core.exceptions import CustomException
 from core.fastapi.dependencies import Logging
 from core.fastapi.middlewares import (
     ResponseLoggerMiddleware,
-    SQLAlchemyMiddleware,
 )
 
 

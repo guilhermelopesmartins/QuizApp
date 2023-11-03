@@ -13,12 +13,13 @@ if __name__ == "__main__":
 
 class BaseRepository(Generic[EntityType]):
     def __init__(self):
-        self.entities = Dict[str, EntityType]()
+        self.entities = {}
+        # Dict[str, EntityType]
 
     async def get_all(self):
-        return self.entities.values()
+        return self.entities
 
-    async def get_by_key(self, key: str):
+    async def get_by_id(self, key: str):
         return self.entities.get(key)
 
     async def add_entity(self, entity: EntityType, key: str):
