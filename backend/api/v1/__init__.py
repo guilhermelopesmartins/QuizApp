@@ -8,6 +8,7 @@ from .question import questions_router
 from .quiz import quizzes_router
 from .result import results_router
 from .session import sessions_router
+from .user import users_router
 
 
 v1_router = APIRouter()
@@ -19,5 +20,6 @@ v1_router.include_router(questions_router, prefix="/question")
 v1_router.include_router(quizzes_router, prefix="/quiz")
 v1_router.include_router(results_router, prefix="/result")
 v1_router.include_router(sessions_router, prefix="/session")
+v1_router.include_router(users_router, prefix="/user")
 
 

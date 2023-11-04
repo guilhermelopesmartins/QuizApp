@@ -17,10 +17,10 @@ class BaseController(Generic[ModelType]):
         return await self.repository.get_by_id(id)
 
     async def add(self, entity: ModelType):
-        await self.repository.add_entity(entity, entity.id)
+        return await self.repository.add_entity(entity)
 
     async def update(self, id: int, entity: ModelType):
-        await self.repository.update_entity(id, entity)
+        return await self.repository.update_entity(id, entity)
 
     async def delete(self, id: int):
         await self.repository.delete_entity(id)

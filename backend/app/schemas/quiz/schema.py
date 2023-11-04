@@ -1,11 +1,19 @@
 from typing import Optional
-from pydantic import BaseModel, Extra
+from pydantic import BaseModel
+from core.database.models import User as UserModel
+from tortoise.contrib.pydantic import pydantic_model_creator
+
 
 class User(BaseModel):
-    id: int
     username: str
     email: Optional[str] = None
     password: str
+
+UserIn = pydantic_model_creator(UserModel, name="UserIn", exclude_readonly=True)
+
+UserOut = pydantic_model_creator(
+    UserModel, name="UserOut"
+)
 
 class Quiz(BaseModel):
     id: int

@@ -1,6 +1,6 @@
 from functools import partial
 from fastapi import Depends
-from app.controllers import AnswerController, CategoryController, FeedbackController, QuestionController, QuizController, ResultController, SessionController
+from app.controllers import AnswerController, CategoryController, FeedbackController, QuestionController, QuizController, ResultController, SessionController, UserController
 
 from app.repositories.answer import AnswerRepository
 from app.repositories.category import CategoryRepository
@@ -9,6 +9,7 @@ from app.repositories.question import QuestionRepository
 from app.repositories.quiz import QuizRepository
 from app.repositories.result import ResultRepository
 from app.repositories.session import SessionRepository
+from app.repositories.user import UserRepository
 
 class Factory:
     """
@@ -50,6 +51,11 @@ class Factory:
         return SessionController(
             session_repository=SessionRepository()
         )
+    
+    def get_user_controller(self):
+        return UserController(
+            user_repository=UserRepository()
+        )
 
     # Repositories
     answer_repository = partial(AnswerRepository)
@@ -59,3 +65,4 @@ class Factory:
     quiz_repository = partial(QuizRepository)
     result_repository = partial(ResultRepository)
     session_repository = partial(SessionRepository)
+    user_repository = partial(UserRepository)
