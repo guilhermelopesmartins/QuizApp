@@ -37,7 +37,7 @@ async def populate_models():
         quiz = await Quiz.create(
             title=fake.sentence(),
             description=fake.text(),
-            category=category.name,
+            category=category,
             difficulty=fake.random_element(elements=('Easy', 'Medium', 'Hard')),
             owner=user,
         )

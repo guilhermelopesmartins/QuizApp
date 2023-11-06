@@ -1,5 +1,5 @@
 from typing import Optional
-from pydantic import BaseModel, Extra
+from pydantic import BaseModel
 from tortoise import Tortoise
 Tortoise.init_models(["core.database.models"], "models")
 
@@ -13,9 +13,6 @@ from core.database.models import Session as SessionModel
 from core.database.models import Feedback as FeedbackModel
 from tortoise.contrib.pydantic import pydantic_model_creator
 
-class Config:
-    extra = Extra.allow
-    arbitrary_types_allowed = True
 
 UserIn = pydantic_model_creator(UserModel, name="UserIn", exclude_readonly=True)
 UserOut = pydantic_model_creator(UserModel, name="UserOut")
@@ -32,9 +29,6 @@ AnswerIn = pydantic_model_creator(
     exclude_readonly=True
 )
 
-# UserInUpdateSchema = pydantic_model_creator(
-#     User, name="UserInUpdateSchema", include=included_fields_in[1:], exclude_readonly=True, config_class=Config
-# )
 
 AnswerOut = pydantic_model_creator(AnswerModel, name="AnswerOut")
 

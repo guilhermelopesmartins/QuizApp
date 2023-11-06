@@ -21,7 +21,7 @@ async def get_question(id: int, controller: QuestionController = Depends(Factory
 async def create_question(question: QuestionIn, controller: QuestionController = Depends(Factory().get_question_controller)) -> QuestionOut:
     return await controller.add(question)
 
-@question_router.put("/{id}", response_model=QuestionSchema)
+@question_router.put("/{id}", response_model=QuestionOut)
 async def update_question(id: int, question: QuestionIn, controller: QuestionController = Depends(Factory().get_question_controller)):
     return await controller.update(id, question)
 

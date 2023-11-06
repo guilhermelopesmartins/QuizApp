@@ -17,7 +17,7 @@ class Quiz(models.Model):
     id = fields.IntField(pk=True)
     title = fields.CharField(max_length=255)
     description = fields.CharField(max_length=255, null=True)
-    category = fields.CharField(max_length=255)
+    category = fields.ForeignKeyField("models.Category")
     difficulty = fields.CharField(max_length=255)
     owner = fields.ForeignKeyField('models.User')
 
