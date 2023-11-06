@@ -59,6 +59,7 @@ def make_middleware() -> List[Middleware]:
 
 def create_app() -> FastAPI:
 
+    Tortoise.init_models(["core.database.models"], "models")
 
     app_ = FastAPI(
         title="Quiz API",

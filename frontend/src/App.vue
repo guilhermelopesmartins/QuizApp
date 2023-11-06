@@ -1,42 +1,16 @@
-
-<script setup>
-
-import HelloWorld from "@/components/HelloWorld.vue";
-import ViewQuizzes from "./components/ViewQuizzes.vue";
-import { ref } from "vue";
-
-const value = ref(null);
-let starCount = 0;
-const maxStars = 5;
-let isAnimationRunning = false;
-
-function startAnimation() {
-  if (isAnimationRunning) {
-    return;
-  }
-
-  let a = document.getElementById("charging");
-
-  const intervalId = setInterval(function () {
-    if (starCount < maxStars) {
-      a.innerHTML +=
-        '<img src="src/assets/star-fill.svg" style="padding:0.7rem;" alt="1">';
-      starCount++;
-    } else {
-      clearInterval(intervalId);
-      isAnimationRunning = false;
-    }
-  }, 1200);
-
-  isAnimationRunning = true;
-}
-</script>
-
 <template>
   <div class="main-wrapper">
     <div class="main-container">
-      <HelloWorld/>
-      <ViewQuizzes/>
+      <!-- <SelectDifficulty v-if="quizStore.quizStatus !== 'STARTED' && quizStore.quizStatus !== 'FINISHED'" /> -->
+      <div v-if="quizStore.quizStatus !== 'STARTED' && quizStore.quizStatus !== 'FINISHED'" class="mt-6">
+        <SelectCategories />
+      </div>
+      <div v-if="quizStore.quizStatus !== 'STARTED' && quizStore.quizStatus !== 'FINISHED'" class="text-center mt-6">
+        <Button @click="startQuiz" raised text label="Start!"></Button>
+      </div>
+      <div v-if="quizStore.quizStatus === 'STARTED' || quizStore.quizStatus === 'FINISHED'" class="mt-6">
+        <Quiz />
+      </div>
     </div>
 
     <div class="footer">
@@ -68,6 +42,29 @@ function startAnimation() {
   </div>
 </template>
 
+<script setup>
+import { onMounted } from "vue";
+import SelectCategories from "@/components/SelectCategories.vue";
+import SelectDifficulty from "@/components/SelectDifficulty.vue";
+import Quiz from "@/components/Quiz.vue";
+import QuizApi from "@/api/quiz";
+const quizApi = new QuizApi();
+
+import { useQuiz } from "@/store/modules/quiz";
+
+const quizStore = useQuiz();
+
+const startQuiz = () => {
+  quizStore.setQuizStatus("STARTED");
+};
+
+onMounted(async () => {
+  const quizzesResponse = await quizApi.getAllQuizzes();
+
+  quizStore.setQuizzes(quizzesResponse.data);
+});
+</script>
+
 <style scoped>
 ::selection {
   background-color: #4ac58e79;
@@ -88,6 +85,8 @@ a {
   max-width: 1448px;
   margin: 0 auto;
   padding: 5.5rem 6rem 3rem;
+
+  min-height: 100%;
 }
 
 .hero-section {
@@ -373,7 +372,8 @@ a {
 .footer {
   margin-top: 6.9rem;
   width: 100%;
-  position: relative;
+
+  position: absolute;
   margin-bottom: 2.85rem;
 }
 

@@ -33,4 +33,6 @@ body {
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-size: contain;
+  min-height: 100%;
+  margin-bottom: -50px;
 }

@@ -31,23 +31,12 @@ class BaseRepository(Generic[EntityType]):
         self.update_schema = update_schema or schema
         self._pk: str = db_model.describe()["pk_field"]["db_column"]
     
-    def _convert_to_pydantic(self, db_model: Model) -> SCHEMA:
-        return_dict = db_model.__dict__
-
-        # Ensure that the response field always has a value
-        return_dict["response"] = {
-            "message": "Success"
-        }
-
-        return self.schema(**return_dict)
-    
     async def get_all(self) -> List[Model]:
         query = self.db_model.all()
         return await self.schema.from_queryset(query)
 
     async def get_by_id(self, key: str) -> Model:
-        query = self.db_model.filter(id=key).get_or_none()
-        return await self.schema.from_queryset(query)
+        return await self.schema.from_queryset_single(self.db_model.get(id=key))
 
     async def add_entity(self, model: Model) -> Model:
         if isinstance(model, self.create_schema):
@@ -58,11 +47,10 @@ class BaseRepository(Generic[EntityType]):
             return await self.schema.from_tortoise_orm(db_model)
 
     async def update_entity(self, key: str, model: Model) -> Model:
-        if isinstance(model, self.update_schema):
-            model = model.model_dump(exclude_unset=True)
-            query = self.db_model.filter(id=key)
-            await query.update(**model)
-            return await self.schema.from_queryset_single(self.db_model.get(id=key))
+        model = model.model_dump(exclude_unset=True)
+        query = self.db_model.filter(id=key)
+        await query.update(**model)
+        return await self.schema.from_queryset_single(self.db_model.get(id=key))
 
     async def delete_entity(self, key: str):
         model: Model = await self.get_by_id(key)

@@ -22,7 +22,7 @@ async def create_user(user: UserIn, controller: UserController = Depends(Factory
     return await controller.add(user)
 
 @user_router.put("/{id}", response_model=UserOut)
-async def update_user(id: int, user: UserSchema, controller: UserController = Depends(Factory().get_user_controller)):  # Use the UserController
+async def update_user(id: int, user: UserIn, controller: UserController = Depends(Factory().get_user_controller)):  # Use the UserController
     return await controller.update(id, user)
 
 @user_router.delete("/{id}")

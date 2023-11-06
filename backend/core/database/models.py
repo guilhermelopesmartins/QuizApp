@@ -31,8 +31,8 @@ class Question(models.Model):
 class Answer(models.Model):
     id = fields.IntField(pk=True)
     answer = fields.CharField(max_length=255)
-    question = fields.ForeignKeyField('models.Question')
-    user = fields.ForeignKeyField('models.User')
+    question = fields.ForeignKeyField('models.Question', related_name="answer")
+    user = fields.ForeignKeyField('models.User', related_name="answer")
 
 class Result(models.Model):
     id = fields.IntField(pk=True)

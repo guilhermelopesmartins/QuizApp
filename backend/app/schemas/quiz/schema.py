@@ -1,19 +1,59 @@
 from typing import Optional
-from pydantic import BaseModel
+from pydantic import BaseModel, Extra
+from tortoise import Tortoise
+Tortoise.init_models(["core.database.models"], "models")
+
 from core.database.models import User as UserModel
+from core.database.models import Quiz as QuizModel
+from core.database.models import Question as QuestionModel
+from core.database.models import Answer as AnswerModel
+from core.database.models import Result as ResultModel
+from core.database.models import Category as CategoryModel
+from core.database.models import Session as SessionModel
+from core.database.models import Feedback as FeedbackModel
 from tortoise.contrib.pydantic import pydantic_model_creator
 
+class Config:
+    extra = Extra.allow
+    arbitrary_types_allowed = True
+
+UserIn = pydantic_model_creator(UserModel, name="UserIn", exclude_readonly=True)
+UserOut = pydantic_model_creator(UserModel, name="UserOut")
+
+QuizIn = pydantic_model_creator(QuizModel, name="QuizIn", exclude_readonly=True)
+QuizOut = pydantic_model_creator(QuizModel, name="QuizOut")
+
+QuestionIn = pydantic_model_creator(QuestionModel, name="QuestionIn", exclude_readonly=True)
+QuestionOut = pydantic_model_creator(QuestionModel, name="QuestionOut")
+
+AnswerIn = pydantic_model_creator(
+    AnswerModel,
+    name="AnswerIn",
+    exclude_readonly=True
+)
+
+# UserInUpdateSchema = pydantic_model_creator(
+#     User, name="UserInUpdateSchema", include=included_fields_in[1:], exclude_readonly=True, config_class=Config
+# )
+
+AnswerOut = pydantic_model_creator(AnswerModel, name="AnswerOut")
+
+ResultIn = pydantic_model_creator(ResultModel, name="ResultIn", exclude_readonly=True)
+ResultOut = pydantic_model_creator(ResultModel, name="ResultOut")
+
+CategoryIn = pydantic_model_creator(CategoryModel, name="CategoryIn", exclude_readonly=True)
+CategoryOut = pydantic_model_creator(CategoryModel, name="CategoryOut")
+
+SessionIn = pydantic_model_creator(SessionModel, name="SessionIn", exclude_readonly=True)
+SessionOut = pydantic_model_creator(SessionModel, name="SessionOut")
+
+FeedbackIn = pydantic_model_creator(FeedbackModel, name="FeedbackIn", exclude_readonly=True)
+FeedbackOut = pydantic_model_creator(FeedbackModel, name="FeedbackOut")
 
 class User(BaseModel):
     username: str
     email: Optional[str] = None
     password: str
-
-UserIn = pydantic_model_creator(UserModel, name="UserIn", exclude_readonly=True)
-
-UserOut = pydantic_model_creator(
-    UserModel, name="UserOut"
-)
 
 class Quiz(BaseModel):
     id: int
