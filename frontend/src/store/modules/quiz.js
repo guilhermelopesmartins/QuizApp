@@ -30,6 +30,9 @@ export const useQuiz = defineStore("quiz", {
     },
     setQuizStatus(status) {
       this.quizStatus = status;
+    },
+    setUsers(users){
+      this.users = users;
     }
   },
 })

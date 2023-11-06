@@ -60,8 +60,11 @@ const startQuiz = () => {
 
 onMounted(async () => {
   const quizzesResponse = await quizApi.getAllQuizzes();
-
-  quizStore.setQuizzes(quizzesResponse.data);
+  const categoriesResponse = await quizApi.getAllCategories();
+  const usersResponse = await quizApi.getAllUsers();
+  quizStore.setQuizzes(quizzesResponse.data.value);
+  quizStore.setCategories(categoriesResponse.data.value);
+  quizStore.setUsers(usersResponse.data.value)
 });
 </script>
 
