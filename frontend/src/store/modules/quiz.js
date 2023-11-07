@@ -6,6 +6,7 @@ export const useQuiz = defineStore("quiz", {
     return {
       categories: [],
       selectedCategory: null,
+      selectedQuiz: null,
       quizStatus: null,
       selectedDifficulty: null,
       quizzes: [],
@@ -16,6 +17,9 @@ export const useQuiz = defineStore("quiz", {
     
   },
   actions: { 
+    setSelectedQuiz(quiz) {
+      this.selectedQuiz = quiz;
+    },
     setQuizzes(quizzes) {
       this.quizzes = quizzes;
     },

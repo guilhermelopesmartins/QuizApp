@@ -43,81 +43,81 @@ import { ref, onMounted } from "vue";
 import ViewQuestion from "./ViewQuestion.vue";
 import { useQuiz } from "@/store/modules/quiz";
 
-
 const quizStore = useQuiz();
+const questions = quizStore.selectedQuiz.questions;
 
-const questions = ref([
-  {
-    question: "What is the capital of France?",
-    choices: [
-      { name: "Accounting", key: "A" },
-      { name: "Marketing", key: "M" },
-      { name: "Production", key: "P" },
-      { name: "Research", key: "R" },
-    ],
-    correctAnswer: "Paris",
-  },
-  {
-    question: "What is the capital of Spain?",
-    choices: [
-      { name: "Accounting", key: "A" },
-      { name: "Marketing", key: "M" },
-      { name: "Production", key: "P" },
-      { name: "Research", key: "R" },
-    ],
-    correctAnswer: "Madrid",
-  },
-  {
-    question: "What is the capital of Germany?",
-    choices: [
-      { name: "Accounting", key: "A" },
-      { name: "Marketing", key: "M" },
-      { name: "Production", key: "P" },
-      { name: "Research", key: "R" },
-    ],
-    correctAnswer: "Berlin",
-  },
-  {
-    question: "What is the capital of Italy?",
-    choices: [
-      { name: "Accounting", key: "A" },
-      { name: "Marketing", key: "M" },
-      { name: "Production", key: "P" },
-      { name: "Research", key: "R" },
-    ],
-    correctAnswer: "Rome",
-  },
-  {
-    question: "What is the capital of Portugal?",
-    choices: [
-      { name: "Accounting", key: "A" },
-      { name: "Marketing", key: "M" },
-      { name: "Production", key: "P" },
-      { name: "Research", key: "R" },
-    ],
-    correctAnswer: "Lisbon",
-  },
-  {
-    question: "What is the capital of Poland?",
-    choices: [
-      { name: "Accounting", key: "A" },
-      { name: "Marketing", key: "M" },
-      { name: "Production", key: "P" },
-      { name: "Research", key: "R" },
-    ],
-    correctAnswer: "Warsaw",
-  },
-  {
-    question: "What is the capital of Sweden?",
-    choices: [
-      { name: "Accounting", key: "A" },
-      { name: "Marketing", key: "M" },
-      { name: "Production", key: "P" },
-      { name: "Research", key: "R" },
-    ],
-    correctAnswer: "Stockholm",
-  },
-]);
+// const questions = ref([
+//   {
+//     question: "What is the capital of France?",
+//     choices: [
+//       { name: "Accounting", key: "A" },
+//       { name: "Marketing", key: "M" },
+//       { name: "Production", key: "P" },
+//       { name: "Research", key: "R" },
+//     ],
+//     correctAnswer: "Paris",
+//   },
+//   {
+//     question: "What is the capital of Spain?",
+//     choices: [
+//       { name: "Accounting", key: "A" },
+//       { name: "Marketing", key: "M" },
+//       { name: "Production", key: "P" },
+//       { name: "Research", key: "R" },
+//     ],
+//     correctAnswer: "Madrid",
+//   },
+//   {
+//     question: "What is the capital of Germany?",
+//     choices: [
+//       { name: "Accounting", key: "A" },
+//       { name: "Marketing", key: "M" },
+//       { name: "Production", key: "P" },
+//       { name: "Research", key: "R" },
+//     ],
+//     correctAnswer: "Berlin",
+//   },
+//   {
+//     question: "What is the capital of Italy?",
+//     choices: [
+//       { name: "Accounting", key: "A" },
+//       { name: "Marketing", key: "M" },
+//       { name: "Production", key: "P" },
+//       { name: "Research", key: "R" },
+//     ],
+//     correctAnswer: "Rome",
+//   },
+//   {
+//     question: "What is the capital of Portugal?",
+//     choices: [
+//       { name: "Accounting", key: "A" },
+//       { name: "Marketing", key: "M" },
+//       { name: "Production", key: "P" },
+//       { name: "Research", key: "R" },
+//     ],
+//     correctAnswer: "Lisbon",
+//   },
+//   {
+//     question: "What is the capital of Poland?",
+//     choices: [
+//       { name: "Accounting", key: "A" },
+//       { name: "Marketing", key: "M" },
+//       { name: "Production", key: "P" },
+//       { name: "Research", key: "R" },
+//     ],
+//     correctAnswer: "Warsaw",
+//   },
+//   {
+//     question: "What is the capital of Sweden?",
+//     choices: [
+//       { name: "Accounting", key: "A" },
+//       { name: "Marketing", key: "M" },
+//       { name: "Production", key: "P" },
+//       { name: "Research", key: "R" },
+//     ],
+//     correctAnswer: "Stockholm",
+//   },
+// ]);
 
 const currentQuestionIndex = 0;
 const score = ref(0);

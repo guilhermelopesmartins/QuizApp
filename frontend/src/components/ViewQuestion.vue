@@ -1,17 +1,17 @@
 <template>
-  <h2 class="text-center">{{ question }}</h2>
+  <h2 class="text-center">{{ question.question_text }}</h2>
   <div
-    v-for="(choice, index) in props.choices"
+    v-for="(choice, index) in props.question.options.split(',')"
     :key="index"
     class="flex justify-content-center mt-3"
   >
     <RadioButton
       v-model="state.selectedChoice"
-      :inputId="choice.key"
+      :inputId="index"
       name="dynamic"
-      :value="choice.name"
+      :value="choice"
     />
-    <label :for="choice.key" class="ml-2 text-xl text-center">{{ choice.name }}</label>
+    <label :for="index" class="ml-2 text-xl text-center">{{ choice }}</label>
   </div>
 </template>
 
@@ -37,5 +37,4 @@ const state = reactive({
   selectedChoice: null,
 });
 
-const question = "What is the capital of France?";
 </script>
