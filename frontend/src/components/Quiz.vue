@@ -8,9 +8,10 @@
 
       <ViewQuestion
         v-for="(question, index) in questions"
+        :key="index"
         :question="question"
         :choices="question.choices"
-        :onAnswer="handleAnswer"
+        :onAnswer="(answer) => handleAnswer(index, answer)"
       />
 
       <div  class="text-center mt-6">
@@ -27,20 +28,39 @@
     <div v-if="quizStore.quizStatus === 'FINISHED'" class="text-center">
       <h2>Quiz Completed!</h2>
       <p>Your Score: {{ score }} / {{ questions.length }}</p>
+      <ViewQuestion
+        v-for="(question, index) in questions"
+        :key="index"
+        :question="question"
+        :choices="question.choices"
+        :onAnswer="handleAnswer"
+        :disabled="true"
+        v-if="isReviewing"
+      />
       <div class="form-group">
         <textarea
           placeholder="Leave your feedback here..."
           class="custom-textarea"
           v-model="feedback"
+          v-if="!isReviewing"
         ></textarea>
       </div>
-      <Button
-        @click="backToQuizSelection"
-        class="text-2xl"
-        raised
-        text
-        label="Back to Quiz Selection"
-      ></Button>
+      <div class="space-between">
+        <Button
+          @click="toggleReview"
+          class="text-2xl"
+          raised
+          text
+          :label="isReviewing ? 'Back to feedback' : 'Review Quiz'"
+        ></Button>
+        <Button
+          @click="backToQuizSelection"
+          class="text-2xl"
+          raised
+          text
+          label="Back to Quiz Selection"
+        ></Button>
+      </div>
     </div>
   </div>
 </template>
@@ -55,34 +75,53 @@ const quizStore = useQuiz();
 const sessionStore = useSession();
 const questions = quizStore.selectedQuiz.questions;
 
+const isReviewing = ref(false);
 const feedback = ref('');
 
 const currentQuestionIndex = 0;
 const score = ref(0);
 
-const handleAnswer = (isCorrect) => {
-  if (isCorrect) {
-    score.value++;
-  }
-
-  if (currentQuestionIndex.value < questions.length - 1) {
-    currentQuestionIndex.value++;
-  }
+const handleAnswer = (questionIndex, answer) => {
+  questions[questionIndex].answer = answer;
 };
 
 const finishQuiz = () => {
+  score.value = questions.reduce((total, question) => {
+    const answer = {
+      answer: question.answer,
+      question_id: question.id,
+      user_id: sessionStore.getUserId()
+    };
+    quizStore.saveAnswer(answer);
+    
+    const userAnswer = question.answer;
+    return total + (userAnswer === question.correct_answer ? 1 : 0);
+  }, 0);
+  const results = {
+    score: score.value,
+    time_taken: "a lot of time",
+    user_id: sessionStore.getUserId(),
+    quiz_id: quizStore.getSelectedQuiz().id
+  };
+  quizStore.saveResults(results);
   quizStore.setQuizStatus("FINISHED");
 };
 
 const backToQuizSelection = () => {
-  const data = 
-    {
-      feedback_text: feedback.value,
-      user_id: sessionStore.getUserId()
-    }
-  quizStore.sendFeedBack(data);
+  if (feedback.value.trim() !== '') {
+    const data = 
+      {
+        feedback_text: feedback.value,
+        user_id: sessionStore.getUserId()
+      }
+    quizStore.sendFeedBack(data);
+  }
   quizStore.setCategory(null);
   quizStore.setQuizStatus("NOT_STARTED");
+};
+
+const toggleReview = () => {
+  isReviewing.value = !isReviewing.value;
 };
 
 // const questions = ref([

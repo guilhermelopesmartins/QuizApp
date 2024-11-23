@@ -10,13 +10,19 @@
       :inputId="index"
       name="dynamic"
       :value="choice"
+      :disabled="quizStore.quizStatus === 'FINISHED'"
+      @change="handleSelection(choice)"
     />
     <label :for="index" class="ml-2 text-xl text-center">{{ choice }}</label>
   </div>
 </template>
 
 <script setup>
-import { reactive } from "vue";
+import { reactive, onMounted } from "vue";
+import { useQuiz } from "@/store/modules/quiz";
+
+const quizStore = useQuiz();
+
 
 const props = defineProps({
   question: {
@@ -35,6 +41,17 @@ const props = defineProps({
 
 const state = reactive({
   selectedChoice: null,
+});
+
+const handleSelection = (choice) => {
+  state.selectedChoice = choice;
+  props.onAnswer(choice);
+};
+
+onMounted(() => {
+  if (quizStore.quizStatus === "FINISHED") {
+    state.selectedChoice = props.question.answer;
+  }
 });
 
 </script>

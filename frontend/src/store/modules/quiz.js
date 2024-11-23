@@ -24,6 +24,15 @@ export const useQuiz = defineStore("quiz", {
     
   },
   actions: {
+    saveAnswer(data) {
+      quizApi.createAnswer(data)
+    },
+    saveResults(data) {
+      quizApi.createResult(data);
+    },
+    getSelectedQuiz() {
+      return this.selectedQuiz;
+    },
     async getAllCategories() {
       return helper.getDataFromResponse(await quizApi.getAllCategories());
     },
