@@ -21,6 +21,7 @@ async def get_session(id: int, controller: SessionController = Depends(Factory()
 
 @session_router.post("/")
 async def create_session(session: SessionIn, controller: SessionController = Depends(Factory().get_session_controller)) -> SessionOut:
+    print('cheguei')
     return await controller.add(session)
 
 @session_router.put("/{id}")

@@ -1,21 +1,11 @@
 <template>
   <div class="main-wrapper">
-    <div class="main-container">
-      <!-- <SelectDifficulty v-if="quizStore.quizStatus !== 'STARTED' && quizStore.quizStatus !== 'FINISHED'" /> -->
-      <div v-if="quizStore.quizStatus !== 'STARTED' && quizStore.quizStatus !== 'FINISHED'" class="mt-6">
-        <SelectCategories />
-      </div>
-      <div v-if="quizStore.quizStatus !== 'STARTED' && quizStore.quizStatus !== 'FINISHED' && quizStore.selectedCategory" class="mt-6">
-        <SelectQuiz />
-      </div>
-      <div v-if="quizStore.quizStatus !== 'STARTED' && quizStore.quizStatus !== 'FINISHED'" class="text-center mt-6">
-        <Button @click="startQuiz" raised text label="Start!"></Button>
-      </div>
-      <div v-if="quizStore.quizStatus === 'STARTED' || quizStore.quizStatus === 'FINISHED'" class="mt-6">
-        <Quiz />
-      </div>
+    <div v-if="sessionStore.user_id === null">
+      <User />
     </div>
-
+    <div v-if="sessionStore.user_id !== null">
+      <HomeQuiz />
+    </div>
     <div class="footer">
       <div class="footer-content">
         <a
@@ -46,22 +36,18 @@
 </template>
 
 <script setup>
-import { onMounted } from "vue";
-import SelectCategories from "@/components/SelectCategories.vue";
-import SelectDifficulty from "@/components/SelectDifficulty.vue";
-import SelectQuiz from "./components/SelectQuiz.vue";
-import Quiz from "@/components/Quiz.vue";
+//import { onMounted } from "vue";
+import HomeQuiz from "./components/HomeQuiz.vue";
+import User from "./components/User.vue";
 import QuizApi from "@/api/quiz";
 const quizApi = new QuizApi();
 
-import { useQuiz } from "@/store/modules/quiz";
+import { useSession } from "@/store/modules/session";
 
-const quizStore = useQuiz();
+const sessionStore = useSession();
 
-const startQuiz = () => {
-  quizStore.setQuizStatus("STARTED");
-};
 
+/*
 onMounted(async () => {
   const quizzesResponse = await quizApi.getAllQuizzes();
   const usersResponse = await quizApi.getAllUsers();
@@ -71,7 +57,7 @@ onMounted(async () => {
   quizStore.setQuizzes(quizzesResponse.data.value);
   quizStore.setCategories(categories);
   quizStore.setUsers(usersResponse.data.value)
-});
+});*/
 </script>
 
 <style scoped>
@@ -84,6 +70,17 @@ onMounted(async () => {
 :focus-visible {
   outline: none;
   box-shadow: 0 0 0 2px #1e2226, 0 0 0 4px #41b88395, 0 1px 2px 0 black;
+}
+
+.space-between {
+  display: flex;
+  gap: 30px;
+  justify-content: center;
+}
+
+.logout {
+  color: white;
+  background-color: black;
 }
 
 a {
@@ -379,7 +376,7 @@ a {
 }
 
 .footer {
-  margin-top: 6.9rem;
+
   width: 100%;
 
   position: absolute;

@@ -77,5 +77,5 @@ async def populate_models():
 
 if __name__ == '__main__':
     import asyncio
-    loop = asyncio.get_event_loop()
-    loop.run_until_complete(populate_models())
+    loop = asyncio.run(populate_models())
+    # loop.run_until_complete(populate_models())

@@ -131,46 +131,4 @@ export default class QuizApi {
   async deleteResult(id) {
     return useHttp(`/v1/result/${id}`, 'DELETE');
   }
-
-  // Session endpoints
-  async getAllSessions() {
-    return useHttp('/v1/session/', "GET");
-  }
-
-  async createSession(data) {
-    return useHttp(`/v1/session/`, 'POST', data);
-  }
-
-  async getSession(id) {
-    return useHttp(`/v1/session/${id}`, "GET");
-  }
-
-  async updateSession(id, data) {
-    return useHttp(`/v1/session/${id}`, 'PUT', data);
-  }
-
-  async deleteSession(id) {
-    return useHttp(`/v1/session/${id}`, 'DELETE');
-  }
-
-  // User endpoints
-  async getAllUsers() {
-    return useHttp('/v1/user/', "GET");
-  }
-
-  async createUser(data) {
-    return useHttp(`/v1/user/`, 'POST', data);
-  }
-
-  async getUser(id) {
-    return useHttp(`/v1/user/${id}`, "GET");
-  }
-
-  async updateUser(id, data) {
-    return useHttp(`/v1/user/${id}`, 'PUT', data);
-  }
-
-  async deleteUser(id) {
-    return useHttp(`/v1/user/${id}`, 'DELETE');
-  }
 }
