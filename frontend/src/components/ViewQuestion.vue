@@ -50,6 +50,7 @@ const handleSelection = (choice) => {
 
 onMounted(() => {
   if (quizStore.quizStatus === "FINISHED") {
+    console.log('answer', props.question.answer)
     state.selectedChoice = props.question.answer;
   }
 });

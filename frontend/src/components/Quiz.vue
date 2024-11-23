@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-if="quizStore.quizStatus !== 'FINISHED'">
-      <h1 class="text-center">Quiz</h1>
+      <h1 class="text-center">{{ timerCount }}</h1>
       <p class="text-center" v-if="currentQuestionIndex < questions.length">
         {{ currentQuestionIndex + 1 }} / {{ questions.length }}
       </p>
@@ -73,7 +73,10 @@ import { useSession } from "@/store/modules/session";
 
 const quizStore = useQuiz();
 const sessionStore = useSession();
-const questions = quizStore.selectedQuiz.questions;
+const questions = quizStore.selectedQuiz.questions.map(question => ({
+    ...question,
+    answer: null
+}));
 
 const isReviewing = ref(false);
 const feedback = ref('');
@@ -81,14 +84,17 @@ const feedback = ref('');
 const currentQuestionIndex = 0;
 const score = ref(0);
 
+const timerCount = ref(60);
+
 const handleAnswer = (questionIndex, answer) => {
   questions[questionIndex].answer = answer;
 };
 
 const finishQuiz = () => {
   score.value = questions.reduce((total, question) => {
+    debugger
     const answer = {
-      answer: question.answer,
+      answer: question.answer ?? '',
       question_id: question.id,
       user_id: sessionStore.getUserId()
     };
@@ -123,6 +129,23 @@ const backToQuizSelection = () => {
 const toggleReview = () => {
   isReviewing.value = !isReviewing.value;
 };
+
+const countdown = () => {
+  if (quizStore.getQuizStatus() == 'FINISHED')
+    return;
+  if (timerCount.value > 0) {
+    setTimeout(() => {
+        timerCount.value--;
+        countdown();
+    }, 1000);
+  } else if (timerCount.value <= 0) {
+    finishQuiz();
+  }
+};
+
+onMounted(() => {
+    countdown();
+});
 
 // const questions = ref([
 //   {

@@ -90,7 +90,7 @@ a {
 .main-container {
   max-width: 1448px;
   margin: 0 auto;
-  padding: 5.5rem 6rem 3rem;
+  padding: 3rem 6rem 3rem;
 
   min-height: 100%;
 }

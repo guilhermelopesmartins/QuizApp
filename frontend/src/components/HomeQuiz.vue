@@ -1,8 +1,12 @@
 <template>
     <div class="main-container">
-      <div class="header" v-if="quizStore.quizDisplay !== null">
-        <Button @click="goHome()" class="logout" label="<- Home"></Button>
-        <h1>{{ user_name }}</h1>
+      <div class="header" >
+        <div>
+          <Button @click="goHome()" v-if="quizStore.quizDisplay !== null" class="logout" label="<- Home"></Button>
+        </div>
+        <div>
+          <h1>{{ user_name }}</h1>
+        </div>
       </div>
       <div id="quiz">  
         <div class="text-center" v-if="quizStore.quizDisplay === null">

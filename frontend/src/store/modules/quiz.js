@@ -24,6 +24,9 @@ export const useQuiz = defineStore("quiz", {
     
   },
   actions: {
+    getQuizStatus () {
+      return this.quizStatus;
+    },
     saveAnswer(data) {
       quizApi.createAnswer(data)
     },
