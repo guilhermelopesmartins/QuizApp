@@ -13,7 +13,7 @@ export const useQuiz = defineStore("quiz", {
       selectedCategory: null,
       selectedQuiz: null,
       quizStatus: null,
-      quizCreation: null,
+      quizDisplay: null,
       selectedDifficulty: null,
       quizzes: [],
       filterQuizzes: [],
@@ -58,8 +58,11 @@ export const useQuiz = defineStore("quiz", {
         await quizApi.createQuestion(data);
       });
     },
-    setQuizCreation(creation) {
-      this.quizCreation = creation;
+    async getAllResults () {
+      return helper.getDataFromResponse(await quizApi.getAllResults());
+    },
+    setQuizDisplay(creation) {
+      this.quizDisplay = creation;
     },
     setSelectedQuiz(quiz) {
       this.selectedQuiz = quiz;
