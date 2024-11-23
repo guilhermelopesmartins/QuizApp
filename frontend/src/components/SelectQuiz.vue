@@ -1,7 +1,7 @@
 <template>
   <div class="text-center mb-2 text-2xl">Select Quiz</div>
   <div class="text-center">
-    <SelectButton text raised rounded class="large" severity="info" v-model="state.selectQuiz"  :options="quizStore.quizzes.map(q => q.title)" aria-labelledby="basic" />
+    <SelectButton text raised rounded class="large" severity="info" v-model="state.selectQuiz"  :options="quizStore.filterQuizzes.map(q => q.title)" aria-labelledby="basic" />
   </div>
 </template>
 

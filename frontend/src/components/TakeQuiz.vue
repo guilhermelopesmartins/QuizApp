@@ -20,8 +20,12 @@
     import SelectDifficulty from "@/components/SelectDifficulty.vue";
     import SelectQuiz from "@/components/SelectQuiz.vue";
     import Quiz from "@/components/Quiz.vue";
+    
     import QuizApi from "@/api/quiz";
     const quizApi = new QuizApi();
+    
+    import UserApi from "@/api/user";
+    const userApi = new UserApi();
 
     import { useQuiz } from "@/store/modules/quiz";
     import { useSession } from "@/store/modules/session";
@@ -34,7 +38,7 @@
 
     onMounted(async () => {
         const quizzesResponse = await quizApi.getAllQuizzes();
-        const usersResponse = await quizApi.getAllUsers();
+        const usersResponse = await userApi.getAllUsers();
 
         const categories = quizzesResponse.data.value.map((quiz) => quiz.category);
 

@@ -60,7 +60,7 @@
     const addQuiz = () => {
         let questions = []; 
         addQuestion.value.getAllQuestions().forEach(a => {
-            const currentOption = a.options.join(', ');
+            const currentOption = a.options.join(',');
             questions.push({
                 question: a.question,
                 options: currentOption,

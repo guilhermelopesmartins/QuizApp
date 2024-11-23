@@ -1,13 +1,12 @@
 <template>
     <div class="main-container">
-      <div v-if="quizStore.quizCreation !== null">
+      <div class="header" v-if="quizStore.quizCreation !== null">
         <Button @click="goHome()" class="logout" label="<- Home"></Button>
-      </div>
-      <div class="text-center">
-        <h1>{{ user_name }}, you are playing QUIZ</h1>
+        <h1>{{ user_name }}</h1>
       </div>
       <div id="quiz">  
         <div class="text-center" v-if="quizStore.quizCreation === null">
+          <h1>Quizzz</h1>
           <div class="text-center mt-6 space-between">
             <Button @click="startCreation()" label="Create a Quiz"></Button>
             <Button @click="startQuiz()" label="Take a Quiz"></Button>
@@ -38,7 +37,7 @@
       quizStore.setQuizCreation(true);
     };
     const startQuiz = () => {
-      quizStore.setQuizCreation(null);
+      quizStore.setQuizCreation(false);
     };
 
     const goHome = () => {

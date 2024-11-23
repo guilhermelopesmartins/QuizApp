@@ -16,6 +16,7 @@ export const useQuiz = defineStore("quiz", {
       quizCreation: null,
       selectedDifficulty: null,
       quizzes: [],
+      filterQuizzes: [],
       users: [],
     }
   },
@@ -25,6 +26,9 @@ export const useQuiz = defineStore("quiz", {
   actions: {
     async getAllCategories() {
       return helper.getDataFromResponse(await quizApi.getAllCategories());
+    },
+    sendFeedBack(data) {
+      quizApi.createFeedback(data);
     },
     async createNewQuiz(quiz) {
       const data = {
@@ -59,6 +63,9 @@ export const useQuiz = defineStore("quiz", {
     },
     setCategory(category) {
       this.selectedCategory = category;
+      if (this.quizzes.length <= 0)
+        return;
+      this.filterQuizzes = this.quizzes.filter(q => q.category.name === this.selectedCategory);
     },
     setDifficulty(difficulty) {
       this.selectedDifficulty = difficulty;

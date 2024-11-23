@@ -27,6 +27,13 @@
     <div v-if="quizStore.quizStatus === 'FINISHED'" class="text-center">
       <h2>Quiz Completed!</h2>
       <p>Your Score: {{ score }} / {{ questions.length }}</p>
+      <div class="form-group">
+        <textarea
+          placeholder="Leave your feedback here..."
+          class="custom-textarea"
+          v-model="feedback"
+        ></textarea>
+      </div>
       <Button
         @click="backToQuizSelection"
         class="text-2xl"
@@ -42,9 +49,41 @@
 import { ref, onMounted } from "vue";
 import ViewQuestion from "./ViewQuestion.vue";
 import { useQuiz } from "@/store/modules/quiz";
+import { useSession } from "@/store/modules/session";
 
 const quizStore = useQuiz();
+const sessionStore = useSession();
 const questions = quizStore.selectedQuiz.questions;
+
+const feedback = ref('');
+
+const currentQuestionIndex = 0;
+const score = ref(0);
+
+const handleAnswer = (isCorrect) => {
+  if (isCorrect) {
+    score.value++;
+  }
+
+  if (currentQuestionIndex.value < questions.length - 1) {
+    currentQuestionIndex.value++;
+  }
+};
+
+const finishQuiz = () => {
+  quizStore.setQuizStatus("FINISHED");
+};
+
+const backToQuizSelection = () => {
+  const data = 
+    {
+      feedback_text: feedback.value,
+      user_id: sessionStore.getUserId()
+    }
+  quizStore.sendFeedBack(data);
+  quizStore.setCategory(null);
+  quizStore.setQuizStatus("NOT_STARTED");
+};
 
 // const questions = ref([
 //   {
@@ -118,25 +157,25 @@ const questions = quizStore.selectedQuiz.questions;
 //     correctAnswer: "Stockholm",
 //   },
 // ]);
-
-const currentQuestionIndex = 0;
-const score = ref(0);
-
-const handleAnswer = (isCorrect) => {
-  if (isCorrect) {
-    score.value++;
-  }
-
-  if (currentQuestionIndex.value < questions.length - 1) {
-    currentQuestionIndex.value++;
-  }
-};
-
-const finishQuiz = () => {
-  quizStore.setQuizStatus("FINISHED");
-};
-
-const backToQuizSelection = () => {
-  quizStore.setQuizStatus("NOT_STARTED");
-};
 </script>
+
+<style scoped>
+
+.custom-textarea {
+  width: 100%; /* Largura total para se alinhar com outros inputs */
+  max-width: 400px; /* Limita a largura, semelhante aos inputs */
+  height: 120px; /* Altura maior que o input padrão */
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  resize: vertical; /* Permite redimensionar verticalmente */
+  box-sizing: border-box; /* Inclui padding na largura */
+}
+
+.custom-textarea:focus {
+  outline: none;
+  border-color: #007bff; /* Altera a cor da borda no foco */
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+</style>
