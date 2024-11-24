@@ -6,7 +6,7 @@
     <div class="text-center" v-if="sessionStore.sessionStatus === null">
         <h1>Welcome to the quiz</h1>
         <div class="space-between">
-            <Button @click="() => setSessionStatus('LOGIN')" label="Login"></Button>
+            <!-- <Button @click="() => setSessionStatus('LOGIN')" label="Login"></Button> -->
             <Button @click="() => setSessionStatus('CREATE')" label="Create new user"></Button>
             <!-- <Button @click="() => setSessionStatus('START')" label="Start with a guest"></Button> -->
         </div>
