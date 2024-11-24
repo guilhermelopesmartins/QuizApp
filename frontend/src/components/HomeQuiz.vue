@@ -56,5 +56,7 @@
 
     const goHome = () => {
       quizStore.setQuizDisplay(null);
+      quizStore.setQuizStatus('NOT_STARTED');
+      quizStore.setCategory(null);
     }
 </script>

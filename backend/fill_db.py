@@ -21,6 +21,10 @@ fake = Faker()
 async def populate_models():
     await Tortoise.init(config=TORTOISE_ORM)
 
+    await Category.create(
+        id=100,
+        name="General Knowledge"
+    )
 
     # Generate fake data and populate models
     for _ in range(10):  # Adjust the number of records as needed

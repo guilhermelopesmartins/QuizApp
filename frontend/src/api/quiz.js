@@ -131,4 +131,9 @@ export default class QuizApi {
   async deleteResult(id) {
     return useHttp(`/v1/result/${id}`, 'DELETE');
   }
+
+  // External generate quiz api
+  async getGeneratedQuestions() {
+    return useHttp(`https://opentdb.com/api.php?amount=10&type=multiple`, 'GET');
+  }
 }
