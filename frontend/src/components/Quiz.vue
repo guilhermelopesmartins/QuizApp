@@ -105,7 +105,7 @@ const finishQuiz = () => {
   }, 0);
   const results = {
     score: score.value,
-    time_taken: "a lot of time",
+    time_taken: `${60 - timerCount.value} seconds`,
     user_id: sessionStore.getUserId(),
     quiz_id: quizStore.getSelectedQuiz().id
   };
